@@ -1,32 +1,65 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <SongListPage :data="dataSource" :class="{hasPadding:showPlayer}"/>
+    <Player v-if="showPlayer"/>
   </div>
 </template>
-
+<script>
+import SongListPage from './SongListPage'
+import Player from './player/Index'
+import axios from 'axios'
+import {mapState} from 'vuex'
+export default {
+  //声明子组件
+  components:{
+    SongListPage,
+    Player
+  },
+  data(){
+    return{
+      //数据源
+      dataSource:[]
+    }
+  },
+  computed:{
+    ...mapState({
+      showPlayer:state=>(state.Player.currentIndex >0)
+    })
+  },
+  created(){
+    //请求歌手数据
+    axios.get('http://localhost:3000/artists/songs?id=35531')
+    .then(data=>{
+      console.log('请求成功')
+      //console.log(data)
+      //过滤数据
+      const newData=data.data.hotSongs.map(item=>({
+        id:item.id,
+        name:item.name,
+        ar:item.ar.map(arItem=>arItem.name).join('/'),//歌手列表
+        al:{
+          name:item.al.name,
+          picUrl:item.al.picUrl
+        }
+      }));
+      console.log(newData)
+      //将数据赋值给当前组件的属性
+      this.dataSource=newData;
+    })
+    .catch(error=>{
+      console.log('请求失败')
+       console.log(error)
+    })
+  }
+}
+</script>
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+*{padding: 0;margin: 0;}
+html,body,#app, .page{
+  width: 100%;
+  height: 100%;
 }
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+.hasPadding{
+  padding-bottom: 60px;
 }
 </style>
