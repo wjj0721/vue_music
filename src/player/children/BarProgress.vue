@@ -56,14 +56,14 @@ export default {
     //添加icon的触摸事件
     //基于触摸开始事件上的监听移动和停止
     icon.addEventListener("touchstart", (ev) => {
-      console.log("touchstart");
+      // console.log("touchstart");
       let x=this.maxScroll*this.value//记录每一次偏移的位置
       //告诉外部触摸开始了
       this.$emit('touchstart')
       //记录开始的位置
       const startX=ev.changedTouches[0].clientX
       const touchmoveCallback = (ev) => {
-        console.log("touchmove");
+        // console.log("touchmove");
         //计算偏移量
         let offsetX=ev.changedTouches[0].clientX - startX;
         offsetX=offsetX+x;//叠加上一次的位置
@@ -75,7 +75,7 @@ export default {
         {
             offsetX=maxScroll
         }
-        console.log(offsetX);
+        // console.log(offsetX);
         //手指移动多少 就让icon标签跟着偏移多少
         icon.style.transform=`translate(${offsetX}px,-50%)`;
         //计算进度的百分比
@@ -85,9 +85,9 @@ export default {
       };
       const touchendCallback = (ev) => {
           //移除监听
-        console.log("touchend");
+        // console.log("touchend");
         //告诉外部触摸停止了
-        this.$emit('touchend')
+        // this.$emit('touchend')
         document.removeEventListener("touchmove", touchmoveCallback);
         document.removeEventListener("touchend", touchendCallback);
       };

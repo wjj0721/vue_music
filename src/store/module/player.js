@@ -58,9 +58,19 @@ export default{
     getters:{
         //当前歌曲信息
         currentSong(state,getters){
-            if(state.currentIndex>=0 && state.currentIndex<getters.playList.length){
+            /* =============================我改=============================== */
+            // console.log('getters',getters)
+            // if(state.currentIndex>=0 && state.currentIndex<getters.playList.length){
+            //     //选中了歌曲要播放
+            //     return getters.playList[state.currentIndex];
+            // }else{
+            //     //没有选中歌曲
+            //     return{};
+            // }
+            console.log('state.playList',state.playList)
+            if(state.currentIndex>=0 && state.currentIndex<state.playList.length){
                 //选中了歌曲要播放
-                return getters.playList[state.currentIndex];
+                return state.playList[state.currentIndex];
             }else{
                 //没有选中歌曲
                 return{};
@@ -70,7 +80,6 @@ export default{
     mutations: {
         //歌单中点击歌曲后的处理事件
         selectSongByIndex(state,payLoad){
-            console.log(payLoad)
             //设置歌曲下标
             state.currentIndex=payLoad.index
             //歌单原始数据需要一直保留 不能被其他事件影响到歌单顺序
@@ -90,7 +99,11 @@ export default{
             },
             //修改是否为全屏播放
             setFullScreen(state,payLoad){
-                state.fullScreen=payLoad.value;
+                /* =============================我改=============================== */
+                //state.fullScreen=payLoad.fullScreen;
+                console.log('=====state=====',state)
+                console.log('=====payLoad=====',payLoad)
+                state.fullScreen=!state.fullScreen;
             },
             //切换播放模式
             changePlayMode(state){

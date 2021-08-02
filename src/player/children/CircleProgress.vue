@@ -23,7 +23,7 @@ export default {
       this.$emit("input", !this.value);
     },
     renderAction(){
-        //清楚上次的绘制
+        //清除上次的绘制
         this.context.clearRect(0,0,62,62)
       this.context.save()
       this.context.beginPath()

@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <SongListPage :data="dataSource" :class="{hasPadding:showPlayer}"/>
-    <Player v-if="showPlayer"/>
+    <SongListPage ref="player" :data="dataSource" :class="{hasPadding:showPlayer}"/>
+    <Player  v-if="showPlayer"/>
   </div>
 </template>
 <script>
@@ -50,7 +50,15 @@ export default {
       console.log('请求失败')
        console.log(error)
     })
-  }
+  },
+  // beforeMount(){
+  //   console.log('beforeMount',this.$el)
+  //   console.log('beforeMount--ref',this.$refs.player)
+  // },
+  // mounted(){
+  //   console.log('mounted',this.$el)
+  //   console.log('mounted--ref',this.$refs.player)
+  // }
 }
 </script>
 <style>
